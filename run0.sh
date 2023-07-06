@@ -1,4 +1,4 @@
-data_name=wp #wikitext or wp
+data_name=wikitext
 env CUDA_VISIBLE_DEVICES=0 python3 -u ./run_clm.py \
   --model_name_or_path gpt2 \
   --train_file ./${data_name}_data/train.txt \

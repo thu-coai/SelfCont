@@ -1,4 +1,4 @@
-data_name=wp #wikitext or wp
+data_name=wikitext
 model_ckpt_path=./${data_name}_selfcont_ckpt
 result_file=./result.txt
 device=cuda:0

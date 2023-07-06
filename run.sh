@@ -1,4 +1,4 @@
-data_name=wp #wikitext or wp
+data_name=wikitext
 env CUDA_VISIBLE_DEVICES=0 python3 -u ./run_clm.py \
   --model_name_or_path ./${data_name}_f0_ckpt \
   --model_name_or_path2 ./${data_name}_f0_ckpt \
