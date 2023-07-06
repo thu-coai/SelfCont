@@ -38,7 +38,7 @@ The initial checkpoint of GPT2 can be downloaded from [HuggingFace](https://hugg
 - The 1st stage (get the premature checkpoint): Execute the following command (or run `bash ./run0.sh` directly): 
 
   ```shell
-  data_name=wp #wikitext or wp
+  data_name=wikitext
   env CUDA_VISIBLE_DEVICES=0 python3 -u ./run_clm.py \
     --model_name_or_path gpt2 \
     --train_file ./${data_name}_data/train.txt \
@@ -65,7 +65,7 @@ The initial checkpoint of GPT2 can be downloaded from [HuggingFace](https://hugg
 - The 2nd stage (get the final model): Execute the following command (or run `bash ./run.sh` directly): 
 
   ```shell
-  data_name=wp #wikitext or wp
+  data_name=wikitext
   env CUDA_VISIBLE_DEVICES=0 python3 -u ./run_clm.py \
     --model_name_or_path ./${data_name}_f0_ckpt \
     --model_name_or_path2 ./${data_name}_f0_ckpt \
@@ -94,7 +94,7 @@ The initial checkpoint of GPT2 can be downloaded from [HuggingFace](https://hugg
 Execute the following command to generate texts (or run `bash ./gen.sh` directly): 
 
 ```shell
-data_name=wp #wikitext or wp
+data_name=wikitext
 model_ckpt_path=./${data_name}_selfcont_ckpt
 result_file=./result.txt
 device=cuda:0
