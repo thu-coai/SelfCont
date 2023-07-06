@@ -46,7 +46,6 @@ from transformers import (
 from transformers.testing_utils import CaptureLogger
 from transformers.trainer_utils import get_last_checkpoint, is_main_process
 from transformers.utils import check_min_version
-from modeling_gpt2 import GPT2LMHeadModel_SelfCont
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 check_min_version("4.6.0")
@@ -307,23 +306,34 @@ def main():
 
     if model_args.model_name_or_path:
         try:
-            model = GPT2LMHeadModel_SelfCont.from_pretrained(
-                model_args.model_name_or_path,
-                from_tf=bool(".ckpt" in model_args.model_name_or_path),
-                config=config,
-                cache_dir=model_args.cache_dir,
-                revision=model_args.model_revision,
-                use_auth_token=True if model_args.use_auth_token else None,
-            )
-            model2 = AutoModelForCausalLM.from_pretrained(
-                model_args.model_name_or_path2,
-                from_tf=bool(".ckpt" in model_args.model_name_or_path),
-                config=config,
-                cache_dir=model_args.cache_dir,
-                revision=model_args.model_revision,
-                use_auth_token=True if model_args.use_auth_token else None,
-            )            
-            model.set_ensemble_model(model2)
+            if model_args.model_name_or_path2 is None:
+                model = AutoModelForCausalLM.from_pretrained(
+                    model_args.model_name_or_path,
+                    from_tf=bool(".ckpt" in model_args.model_name_or_path),
+                    config=config,
+                    cache_dir=model_args.cache_dir,
+                    revision=model_args.model_revision,
+                    use_auth_token=True if model_args.use_auth_token else None,
+                )
+            else:
+                from modeling_gpt2 import GPT2LMHeadModel_SelfCont
+                model = GPT2LMHeadModel_SelfCont.from_pretrained(
+                    model_args.model_name_or_path,
+                    from_tf=bool(".ckpt" in model_args.model_name_or_path),
+                    config=config,
+                    cache_dir=model_args.cache_dir,
+                    revision=model_args.model_revision,
+                    use_auth_token=True if model_args.use_auth_token else None,
+                )
+                model2 = AutoModelForCausalLM.from_pretrained(
+                    model_args.model_name_or_path2,
+                    from_tf=bool(".ckpt" in model_args.model_name_or_path),
+                    config=config,
+                    cache_dir=model_args.cache_dir,
+                    revision=model_args.model_revision,
+                    use_auth_token=True if model_args.use_auth_token else None,
+                )            
+                model.set_ensemble_model(model2)
         except:
             logger.info("Training new model from scratch")
             model = AutoModelForCausalLM.from_config(config)

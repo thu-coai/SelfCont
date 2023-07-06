@@ -136,8 +136,7 @@ def get_result(name, truth, cand):
 
 device = "cuda:5"
 result_list = [
-    "../result/wikitext_selfcont_output_greedy.txt",
-    "../result/wikitext_selfcont_output_topp06.txt",
+    "./result/output.txt",
 ]
 with open("../wikitext_data/test.txt", "r", encoding="utf-8") as fin:
     truth = [line.strip() for line in fin][:1000]
